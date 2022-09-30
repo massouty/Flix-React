@@ -1,0 +1,39 @@
+
+
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Literata");
+
+body{
+    font-family:'Literata' , 'Cimson pro ';
+    margin: 0;
+    padding: auto;
+    background-color:bisque;
+
+
+}
+
+.container{
+    width:100%;
+    margin: 1em auto;
+    background-color: #581717;
+
+
+}
+
+h1{
+  color: rgb(12, 15, 231) ;
+  text-align: center;
+
+}
+
+h6{
+    color:rgb(12, 12, 12);
+    text-align: center;
+}
+
+.grid{
+    display: grid;
+    margin-left: .5px;
+    grid-template-columns: repeat(4,1fr);
+    grid: gap 0.2em;
+    justify-content: center;
+}
