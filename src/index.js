@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './Components/App';
+import MainView from './Components/MainView/MainView';
 
 import Footer from './Components/Footer';
 
@@ -8,7 +8,7 @@ import Footer from './Components/Footer';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <MainView />
     <Footer/>
   </React.StrictMode>
 );

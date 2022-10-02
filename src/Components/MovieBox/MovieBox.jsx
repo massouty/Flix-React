@@ -14,7 +14,6 @@ return (
         <img className="card-img-top" src={API_IMG+poster_path} alt=""/>
         <div  className="card-body">
         <button type="button" className="btn btn-dark"  onClick={handleShow}>View More</button>
-         
           <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
