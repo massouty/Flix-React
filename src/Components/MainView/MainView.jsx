@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-no-comment-textnodes */
+
 
 import React ,{useEffect, useState} from  "react";
 import MovieBox from "../MovieBox/MovieBox";
 import './MainView.scss';
 import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
 import Login from '../Login/Login';
-
-
+import Register from '../Register/Register';
 
 
 const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=3b885affc5cf1baf5603690472bf4c6e";
@@ -40,17 +39,45 @@ console.log(e);
 }
 }
 
-
 const changeHandler=(e)=>{
-    setQuery(e.target.value);}
+    setQuery(e.target.value);};
+
+useEffect(()=>{
+ const setIsRegistering = (status)=> {this.setState({isRegistering: status})};
+
+  const onLoggedIn = (user)=>{ this.setState({user});};
+
+  const logOut = ()=>{this.setState({selectedMovie: null,user: null,});};
+const render = ()=>{
+    const { movies, selectedMovie, user } = this.state;
+
+    if (!user)
+      if (!this.state.isRegistering) {
+        return (
+          <Login
+            onLoggedIn={(user) => this.onLoggedIn(user)}
+            onRegisterClick={(status) => this.setIsRegistering(status)}
+          />
+        );
+      } else {
+        return (
+          <Register
+            onRegisterClick={(status) => this.setIsRegistering(status)}
+          />
+        );
+      }
+    };
+})
+
 
 
 return (
     <>
     <Navbar bg="dark" expand="lg" variant="dark" >
         <Container fluid>
+            <Navbar.Brand href='MainView' >Home</Navbar.Brand>
             <Navbar.Brand href='Login' >Login</Navbar.Brand>
-             <Navbar.Brand href=''>Register</Navbar.Brand>
+             <Navbar.Brand href='Register'>Register</Navbar.Brand>
              <Navbar.Toggle  aria-controls='navbarScroll' ></Navbar.Toggle>
                 <Navbar.Collapse  id="navbarScroll">
                 <Nav  className="me-auto my=2 my=lg=3" style={{maxHeight:'400px'}} navbarScroll> 
@@ -70,7 +97,8 @@ return (
      <div className="container">
      <div className="grid">
       {movies.map((movieReq)=>
-      <MovieBox key={movieReq.id}{...movieReq}/>)}
+      <MovieBox key={movieReq.id}{...movieReq}/>
+      )}
      </div>
      </div>
     </>
