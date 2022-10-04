@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 const API_IMG="https://image.tmdb.org/t/p/w500";
 
-function MovieBox({title,poster_path,vote_average,release_date,overview}) {
+function MovieBox({id,title,poster_path,vote_average,release_date,overview}) {
  const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -20,6 +20,7 @@ return (
         </Modal.Header>
         <Modal.Body>
             <img className="card-img-top" src={API_IMG+poster_path} alt=""/>
+            <h6>{id}</h6>
             <h1>{title}</h1>
             <h6>Overview:<br></br>{overview}</h6>
             <h6>Release Date :<br></br>{release_date}</h6>
