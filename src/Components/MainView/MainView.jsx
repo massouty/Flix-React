@@ -4,6 +4,7 @@
 import React ,{useEffect, useState,Redirect} from  "react";
 import {Navbar,Container,Nav,Form,FormControl,Button,Row,Col} from 'react-bootstrap';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import {Routes} from "react-router-dom";
 import MovieBox from "../MovieBox/MovieBox";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
@@ -19,7 +20,8 @@ const API_SURCH ="https://api.themoviedb.org/3/search/movie?api_key=3b885affc5cf
 function MainView() {
     const [movies,setMovies] = useState([]);
     const [query,setQuery] = useState('');
-      let {user}=this.state;
+    const [user]=useState('');
+     
 
    useEffect((token)=>{
     fetch(API_URL,{headers: { Authorization: `Bearer ${token}`}})
@@ -30,15 +32,7 @@ function MainView() {
     })
    },[]);
 
-  const componentDidMount=()=> {
-  let accessToken = localStorage.getItem('token');
-  if (accessToken !== null) {
-    this.setState({
-      user: localStorage.getItem('user')
-    });
-    this.useEffect(accessToken);
-  }
-};
+  
 
   const onLoggedIn=(authData)=> {
   console.log(authData);
@@ -66,25 +60,22 @@ const onRegister=()=>{
   }
 
 return (
+        
        <Router>
 
-     <div className="container">
-     <div className="grid">
-     {movies.map((movie)=>
-      <MovieBox key={movie.id}{...movie}/>)} 
-     </div>
-     </div>
-
- 
         <NavView user={user} /> 
+        <Routes>
         <Row className="MainView justify-content-md-center">
           <Route exact path="/" render={() => {
               if (!user) return <Col>
                 <Login onLoggedIn={user => this.onLoggedIn(user)} />
               </Col>
               if (movies.length === 0) return <div className="MainView" />;
-              return  
-               ;}} />
+              return <div className="container grid">
+                               {movies.map((movie)=>
+                               <MovieBox key={movie.id}{...movie}/>)} 
+                     </div>
+             }}/>
           <Route path="/register" render={() => {
             if (user) return <Redirect to="/" />
             return <Col>
@@ -128,6 +119,7 @@ return (
       </Col>
     }} />
   </Row>
+  </Routes>
 </Router>
      
     );
@@ -138,14 +130,6 @@ let mapStateToProps = state => {
   return { movies: state.movies }
 }
 
-
-   
- 
-
-
-
-
-  
 
 
 export default MainView;
