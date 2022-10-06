@@ -9,6 +9,7 @@ import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
 import Login from '../Login/Login';
 import Profile from "../Profile/Profile";
 import Register from '../Register/Register';
+import Genre from "../Genre/Genre";
 
 
 const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=3b885affc5cf1baf5603690472bf4c6e";
@@ -44,16 +45,6 @@ console.log(e);
 }
 }
 
- const render=()=>{
-    return(
-        <Router>
-            <switch>
-              <Route exact path ="/Login" component={Login}/>
-              <Route exact path ="/Profile" component={()=><Profile authorized={true}/>}/>
-              </switch>
-              </Router> 
-    )
-};
 
 const changeHandler=(e)=>{
     setQuery(e.target.value);};
@@ -96,6 +87,7 @@ return (
             <Navbar.Brand href='/MainView' >Home</Navbar.Brand>
             <Navbar.Brand href='/Login' >Login</Navbar.Brand>
              <Navbar.Brand href='/Register'>Register</Navbar.Brand>
+             <Navbar.Brand href='/Genre'>Genre</Navbar.Brand>
              <Navbar.Toggle  aria-controls='navbarScroll' ></Navbar.Toggle>
                 <Navbar.Collapse  id="navbarScroll">
                 <Nav  className="me-auto my=2 my=lg=3" style={{maxHeight:'400px'}} navbarScroll> 
@@ -111,7 +103,18 @@ return (
                 <Button variant="primary" type="submit">Search</Button>
 
              </Form>
-              
+              <Router>
+            <Switch>
+              <Route exact path ="/Login" component={Login}/>
+              <Route exact path ="/Profile" component={()=><Profile authorized={true}/>}/>
+              </Switch>
+               <Switch>
+              <Route exact path ="/Register" component={Register}/>
+              </Switch>
+              <Switch>
+              <Route exact path ="/Genre" component={Genre}/>
+              </Switch>
+             
      <div className="container">
      <div className="grid">
       {movies.map((movieReq)=>
@@ -119,7 +122,7 @@ return (
       )}
      </div>
      </div>
-     
+      </Router> 
     </>
 );
 }
