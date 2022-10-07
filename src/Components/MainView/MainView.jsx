@@ -9,7 +9,7 @@ import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
 import Login from '../Login/Login';
 import Profile from "../Profile/Profile";
 import Register from '../Register/Register';
-import Genre from "../Genre/Genre";
+import GenreView from "../GenreView/GenreView";
 
 
 const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=3b885affc5cf1baf5603690472bf4c6e";
@@ -17,6 +17,7 @@ const API_SURCH ="https://api.themoviedb.org/3/search/movie?api_key=3b885affc5cf
 function MainView() {
     const [movies,setMovies] = useState([]);
     const [query,setQuery] = useState('');
+    const [genres]=useState([]);
     
    useEffect(()=>{
     fetch(API_URL)
@@ -87,7 +88,7 @@ return (
             <Navbar.Brand href='/MainView' >Home</Navbar.Brand>
             <Navbar.Brand href='/Login' >Login</Navbar.Brand>
              <Navbar.Brand href='/Register'>Register</Navbar.Brand>
-             <Navbar.Brand href='/Genre'>Genre</Navbar.Brand>
+             <Navbar.Brand href='/GenreView'>GenreView</Navbar.Brand>
              <Navbar.Toggle  aria-controls='navbarScroll' ></Navbar.Toggle>
                 <Navbar.Collapse  id="navbarScroll">
                 <Nav  className="me-auto my=2 my=lg=3" style={{maxHeight:'400px'}} navbarScroll> 
@@ -111,15 +112,18 @@ return (
                <Switch>
               <Route exact path ="/Register" component={Register}/>
               </Switch>
+           
               <Switch>
-              <Route exact path ="/Genre" component={Genre}/>
-              </Switch>
-             
+              <Route exact path="/GenreView" component={GenreView} />
+            </Switch>
+  
      <div className="container">
      <div className="grid">
       {movies.map((movieReq)=>
       <MovieBox key={movieReq.id}{...movieReq}/>
       )}
+
+       
      </div>
      </div>
       </Router> 
