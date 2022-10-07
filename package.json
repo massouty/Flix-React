@@ -2,6 +2,7 @@
   "name": "movies-app",
   "version": "0.1.0",
   "private": true,
+  "main":"src/index.html",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -45,7 +46,7 @@
   "devDependencies": {
     "devtools": "^7.25.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "parcel": "^2.7.0",
+    "parcel": "^2.0.0-rc.0",
     "react-devtools": "^4.26.0",
     "sass": "^1.55.0"
   }
