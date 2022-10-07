@@ -3,6 +3,9 @@
 
 import React ,{useEffect, useState} from  "react";
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
+import { connect } from 'react-redux';
+import { setMovies } from '../Action/Action';
+
 import MovieBox from "../MovieBox/MovieBox";
 import './MainView.scss';
 import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
@@ -24,7 +27,7 @@ function MainView() {
     .then((resp)=>resp.json())
     .then (data=> {
         console.log(data);
-        setMovies(data.results);
+       setMovies(data.results);
     })
    },[])
 
@@ -131,4 +134,8 @@ return (
 );
 }
 
-export default MainView;
+let mapStateToProps = state => {
+  return { movies: state.movies }
+}
+
+export default connect(mapStateToProps, { setMovies } )(MainView);

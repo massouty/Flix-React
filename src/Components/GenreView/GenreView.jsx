@@ -1,4 +1,7 @@
 import React,{useEffect,useState} from 'react';
+import { Container } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { setGenres } from '../Action/Action';
 
 
 import './GenreView.scss';
@@ -20,14 +23,20 @@ function GenreView ({id,name}) {
 
 
     return (
+        <Container>
        <div className="card text- center bg-secondary mb.3">
             {genres.map((genreReq)=>
-      <GenreView key={genreReq.id}{...genreReq}/>
+              <GenreView key={genreReq.id}{...genreReq}/>
       )}
         <h1>Genre_ID: <bar></bar>{id}</h1>
         <h1>Genre Name:<br></br>{name}</h1>
          </div>
+         </Container>
     )
   }
 
-  export default GenreView;
+  let mapStateToProps = state => {
+  return {genres: state.genres }
+}
+
+  export default connect(mapStateToProps,{setGenres})(GenreView);
