@@ -11,8 +11,11 @@ import './MainView.scss';
 import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
 import Login from '../Login/Login';
 import Profile from "../Profile/Profile";
-import Register from '../Register/Register';
+import Private from "../Private";
+import Signup from '../Signup/Signup';
 import GenreView from "../GenreView/GenreView";
+import AuthService from "../Services/auth.service";
+import Home from "../Home";
 
 
 const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=3b885affc5cf1baf5603690472bf4c6e";
@@ -21,6 +24,8 @@ function MainView() {
     const [movies,setMovies] = useState([]);
     const [query,setQuery] = useState('');
     const [genres]=useState([]);
+    const [currentUser,setCurrentUser]=useState(undefined);
+    const [Logout]=useState(null);
     
    useEffect(()=>{
     fetch(API_URL)
@@ -30,9 +35,6 @@ function MainView() {
        setMovies(data.results);
     })
    },[])
-
-
-
 
 
    const searchMovie = async(e)=>{e.preventDefault();
@@ -49,48 +51,30 @@ console.log(e);
 }
 }
 
-
 const changeHandler=(e)=>{
     setQuery(e.target.value);};
 
-   
-
 useEffect(()=>{
- const setIsRegistering = (status)=> {this.setState({isRegistering: status})};
 
-  const onLoggedIn = (user)=>{ this.setState({user});};
+const user = AuthService.getCurrentUser();
 
-  const logOut = ()=>{this.setState({selectedMovie: null,user: null,});};
-const render = ()=>{
-    const { movies, selectedMovie, user } = this.state;
+    if (user){
+        setCurrentUser(user);
+    }
 
-    if (!user)
-      if (!this.state.isRegistering) {
-        return (
-          <Login
-            onLoggedIn={(user) => this.onLoggedIn(user)}
-            onRegisterClick={(status) => this.setIsRegistering(status)}
-          />
-        );
-      } else {
-        return (
-          <Register
-            onRegisterClick={(status) => this.setIsRegistering(status)}
-          />
-        );
-      }
-    };
-})
-
-
+const logout = ()=>{
+    AuthService.logout();
+};
+},[])
+    
 return (
     <>
     <Navbar bg="dark" expand="lg" variant="dark" >
         <Container fluid>
-
             <Navbar.Brand href='/MainView' >Home</Navbar.Brand>
             <Navbar.Brand href='/Login' >Login</Navbar.Brand>
-             <Navbar.Brand href='/Register'>Register</Navbar.Brand>
+             <Navbar.Brand href='/Signup'>Sign up</Navbar.Brand>
+
              <Navbar.Brand href='/GenreView'>GenreView</Navbar.Brand>
              <Navbar.Toggle  aria-controls='navbarScroll' ></Navbar.Toggle>
                 <Navbar.Collapse  id="navbarScroll">
@@ -107,19 +91,47 @@ return (
                 <Button variant="primary" type="submit">Search</Button>
 
              </Form>
-              <Router>
-            <Switch>
-              <Route exact path ="/Login" component={Login}/>
-              <Route exact path ="/Profile" component={()=><Profile authorized={true}/>}/>
-              </Switch>
-               <Switch>
-              <Route exact path ="/Register" component={Register}/>
-              </Switch>
-           
-              <Switch>
-              <Route exact path="/GenreView" component={GenreView} />
-            </Switch>
+    <div className="navbar-nav mr-auto">
+         <li className="nav-item">
+        <link to={"/Home"} className="nav-link">Home</link>
+     </li>
   
+    {currentUser && (
+     
+        <li className="nav-item">
+        <link to={"/Private"} className="nav-link">Private</link>
+    </li>
+  
+    )}
+</div>
+
+{currentUser ? (
+<div className ="navbar-nav mr-auto">
+         <li className ="nav-item">
+        <a href={"/Login"} className="nav-link" onClick={Logout}>Logout
+        </a>
+     </li>
+    </div>
+): (
+    <div className="navbar-nav mr-auto">
+         <li className="nav-item">
+        <link to={"/Login"} className="nav-link">Login</link>
+     </li>
+
+     <li className="nav-item">
+        <link to={"/Signup"} className="nav-link">Signup</link>
+     </li>
+     </div>
+)}
+
+<Router>
+    <Route path="/Home" element={<Home/>}/>
+     <Route path="/Private" element={<Private/>}/>
+     <Route path="/Login" element={<Login/>}/>
+     <Route path="/Signup" element={<Signup/>}/>
+
+</Router>
+
      <div className="container">
      <div className="grid">
       {movies.map((movieReq)=>
@@ -129,10 +141,10 @@ return (
        
      </div>
      </div>
-      </Router> 
+ 
     </>
 );
-}
+};
 
 let mapStateToProps = state => {
   return { movies: state.movies }

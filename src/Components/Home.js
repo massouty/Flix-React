@@ -27,3 +27,5 @@ useEffect(()=>{
 
 };
 
+export default Home;
+
