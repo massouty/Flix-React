@@ -1,8 +1,58 @@
-import React  from 'react';
+
+import React,{useState} from 'react';
+import { useNavigate } from 'react';
+import AuthService from "../Services/auth.service";
+
+const Login =()=>{
+    const[email,setEmail]= useState("");
+    const [password,setPassword]= useState("");
+
+const navigate = useNavigate();
+const handleLogin = async (e)=>{
+    e.preventDefault();
+    try {
+        await AuthService.Login(email,password).then (
+            ()=>{
+                navigate("/home");
+                window.location.reload();
+            },
+            (error)=>{
+                console.log(error);
+            }
+        );
+    } catch (error){
+        console.log(error);
+    }
+   };
+
+   return (
+    <div>
+        <form  onSubmit={handleLogin}>
+            <h3>Log in</h3>
+            <input  
+              type="text"
+              placeholder='email'
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
+            />
+            <input  
+              type="text"
+              placeholder='password'
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
+            />
+            <button type="submit">Log in</button>
+        </form>
+    </div>
+   );
+    };
+
+    export default Login;
+
+
+/*import React  from 'react';
 import { useHistory } from 'react-router-dom';
-//import Form from 'react-bootstrap/Form';
-//import Button from 'react-bootstrap/Button';
-//import axios from 'axios';
+
 
 
 function Login(){
@@ -16,76 +66,9 @@ function Login(){
     );
 }
 
-export default Login;
+export default Login;*/
 
 
 
 
-/* function Login(props) {
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
-// Declare hook for each input
-  const [ usernameErr, setUsernameErr ] = useState('');
-  const [ passwordErr, setPasswordErr ] = useState('');
-
-// validate user inputs
-const validate = () => {
-    let isReq = true;
-    if(!username){
-     setUsernameErr('Username Required');
-     isReq = false;
-    }else if(username.length < 2){
-     setUsernameErr('Username must be 2 characters long');
-     isReq = false;
-    }
-    if(!password){
-     setPasswordErr('Password Required');
-     isReq = false;
-    }else if(password.length < 6){
-     setPassword('Password must be 6 characters long');
-     isReq = false;
-    }
-
-    return isReq;
-}
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const isReq = validate();
-  if(isReq) {
-    axios.post('https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=3b885affc5cf1baf5603690472bf4c6e', {
-        Username: username,
-        Password: password
-    })
-    .then(response =>{
-        const data = response.data;
-        props.onLoggedIn(data);
-    })
-    .catch(e => {
-      console.log('no such user')
-    });
-  }
-};*/
-
-  /*return (
-    <Form>
-      <Form.Group controlId="formUsername">
-        <Form.Label>Username:</Form.Label>
-        <Form.Control type="text" placeholder="Enter username" value={username} onChange={e => setUsername(e.target.value)} />
-        {code added here to display validation error }
-        {usernameErr && <p>{usernameErr}</p>}
-</Form.Group>
-
-      <Form.Group controlId="formPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
-        { code added here to display validation error }
-        {passwordErr && <p>{passwordErr}</p>}
-</Form.Group>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
-        Submit
-        </Button>
-    </Form>
-  )
-*/
 
