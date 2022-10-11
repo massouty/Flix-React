@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import AuthService from '../Services/auth.service';
 import {useNavigate} from "react";
 import './Signup.scss';
@@ -66,9 +65,6 @@ import './Signup.scss';
    );
     };
 
-Signup.propTypes = {
-    onRegistration: PropTypes.func.isRequired,
-};
 
 
 export default Signup;

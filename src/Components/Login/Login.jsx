@@ -1,3 +1,4 @@
+
 import React,{useState} from 'react';
 import { useNavigate } from 'react';
 import AuthService from "../Services/auth.service";
@@ -47,6 +48,25 @@ const handleLogin = async (e)=>{
     };
 
     export default Login;
+
+
+/*import React  from 'react';
+import { useHistory } from 'react-router-dom';
+
+
+
+function Login(){
+    const history= useHistory();
+    return(
+        <div>
+            <input type="text" placeholder ="username"/>
+            <input type="text" placeholder ="password"/>
+            <button onClick={()=>{history.push("/Profile");}}>Login</button>
+        </div>
+    );
+}
+
+export default Login;*/
 
 
 

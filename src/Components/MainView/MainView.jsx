@@ -5,7 +5,7 @@ import React ,{useEffect, useState} from  "react";
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import { connect } from 'react-redux';
 import { setMovies } from '../Action/Action';
-
+import { Link } from "react-router-dom";
 import MovieBox from "../MovieBox/MovieBox";
 import './MainView.scss';
 import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
@@ -68,13 +68,12 @@ const logout = ()=>{
 },[])
     
 return (
-    <>
+    <Router>
     <Navbar bg="dark" expand="lg" variant="dark" >
         <Container fluid>
             <Navbar.Brand href='/MainView' >Home</Navbar.Brand>
             <Navbar.Brand href='/Login' >Login</Navbar.Brand>
              <Navbar.Brand href='/Signup'>Sign up</Navbar.Brand>
-
              <Navbar.Brand href='/GenreView'>GenreView</Navbar.Brand>
              <Navbar.Toggle  aria-controls='navbarScroll' ></Navbar.Toggle>
                 <Navbar.Collapse  id="navbarScroll">
@@ -91,15 +90,16 @@ return (
                 <Button variant="primary" type="submit">Search</Button>
 
              </Form>
-    <div className="navbar-nav mr-auto">
+ <div className="navbar-nav mr-auto">
          <li className="nav-item">
-        <link to={"/Home"} className="nav-link">Home</link>
+        <Link to={"/Home"} className="nav-link">Home</Link>
+        <Link to={"/GenreView"} className="nav-link">GenreView</Link>
      </li>
   
     {currentUser && (
      
         <li className="nav-item">
-        <link to={"/Private"} className="nav-link">Private</link>
+        <Link to={"/Private"} className="nav-link">Private</Link>
     </li>
   
     )}
@@ -115,22 +115,25 @@ return (
 ): (
     <div className="navbar-nav mr-auto">
          <li className="nav-item">
-        <link to={"/Login"} className="nav-link">Login</link>
+        <Link to={"/Login"} className="nav-link">Login</Link>
      </li>
 
      <li className="nav-item">
-        <link to={"/Signup"} className="nav-link">Signup</link>
+        <Link to={"/Signup"} className="nav-link">Signup</Link>
      </li>
      </div>
 )}
 
-<Router>
-    <Route path="/Home" element={<Home/>}/>
-     <Route path="/Private" element={<Private/>}/>
-     <Route path="/Login" element={<Login/>}/>
-     <Route path="/Signup" element={<Signup/>}/>
+    <Route exact path="/Home" component={Home}/>
+     <Route exact path="/Private" component={Private}/>
+     <Route exact path="/Login" component={Login}/>
+     <Route exact path="/Signup" component={Signup}/>
+     <Route exact path="/GenreView" component={GenreView}/>
+     
 
-</Router>
+     
+
+
 
      <div className="container">
      <div className="grid">
@@ -142,7 +145,7 @@ return (
      </div>
      </div>
  
-    </>
+    </Router>
 );
 };
 

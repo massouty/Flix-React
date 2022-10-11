@@ -23,13 +23,13 @@ const login =(email,password)=>{return axios.post(API_URL+"/login",{
 
 const logout=()=>{localStorage.removeItem("user");};
 
-const getCurentUser=()=>{return JSON.parse(localStorage.getItem("user"));};
+const getCurrentUser=()=>{return JSON.parse(localStorage.getItem("user"));};
 
 const AuthService ={
     signup,
     login,
     logout,
-    getCurentUser,
+    getCurrentUser,
 };
 
 export default AuthService;
