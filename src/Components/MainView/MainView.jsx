@@ -5,7 +5,7 @@ import React ,{useEffect, useState} from  "react";
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import { connect } from 'react-redux';
 import { setMovies } from '../Action/Action';
-
+import axios from "axios";
 import MovieBox from "../MovieBox/MovieBox";
 import './MainView.scss';
 import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
@@ -15,53 +15,65 @@ import Register from '../Register/Register';
 import GenreView from "../GenreView/GenreView";
 
 
-const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=3b885affc5cf1baf5603690472bf4c6e";
-const API_SURCH ="https://api.themoviedb.org/3/search/movie?api_key=3b885affc5cf1baf5603690472bf4c6e&query";
-function MainView() {
-    const [movies,setMovies] = useState([]);
-    const [query,setQuery] = useState('');
-    const [genres]=useState([]);
-    
-   useEffect(()=>{
-    fetch(API_URL)
-    .then((resp)=>resp.json())
-    .then (data=> {
-        console.log(data);
-       setMovies(data.results);
-    })
-   },[])
+class MainView extends React.Component {
+  constructor() {
+    super();
+  }
 
+  componentDidMount() {
+    let accessToken = localStorage.getItem("token");
+    if (accessToken !== null) {
+      console.log("called setUser");
+      this.props.setUser(localStorage.getItem("user"));
+      this.getMovies(accessToken);
+    }
+  }
 
+  onLoggedIn(authData) {
+    this.props.setUser(authData.user.Username);
+    localStorage.setItem("token", authData.token);
+    localStorage.setItem("user", authData.user.Username);
+    this.getMovies(authData.token);
+  }
 
+  getMovies(token) {
+    axios
+      .get("https://myflixdbapi.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.props.setMovies(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
 
+  onUpdatedUser(newUserInfo) {
+    const { userName, newPassword, email } = newUserInfo;
+    axios
+      .put(`https://myflixdbapi.herokuapp.com/users/${localStorage.getItem("user")}`,
+        {
+          Username: userName,
+          Password: newPassword,
+          Email: email,
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.error(error));
+  }
 
-   const searchMovie = async(e)=>{e.preventDefault();
-    console.log("Searching");
-try{
-    // eslint-disable-next-line no-template-curly-in-string
-    let url= "https://api.themoviedb.org/3/search/movie?api_key=3b885affc5cf1baf5603690472bf4c6e&query=${query}";
-    const res=await fetch(url);
-    const data=await res.json();
-    console.log(data);
-    setMovies(data.results);
-}catch(e){
-console.log(e);
-}
-}
-
-
-const changeHandler=(e)=>{
-    setQuery(e.target.value);};
-
-   
-
-useEffect(()=>{
- const setIsRegistering = (status)=> {this.setState({isRegistering: status})};
-
-  const onLoggedIn = (user)=>{ this.setState({user});};
-
-  const logOut = ()=>{this.setState({selectedMovie: null,user: null,});};
-const render = ()=>{
+  onLoggedOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.props.setUser(null);
+  }
+ render = ()=>{
     const { movies, selectedMovie, user } = this.state;
 
     if (!user)
@@ -79,12 +91,11 @@ const render = ()=>{
           />
         );
       }
-    };
-})
-
-
+    
 return (
-    <>
+
+ <Router>
+
     <Navbar bg="dark" expand="lg" variant="dark" >
         <Container fluid>
 
@@ -107,7 +118,7 @@ return (
                 <Button variant="primary" type="submit">Search</Button>
 
              </Form>
-              <Router>
+            
             <Switch>
               <Route exact path ="/Login" component={Login}/>
               <Route exact path ="/Profile" component={()=><Profile authorized={true}/>}/>
@@ -125,14 +136,15 @@ return (
       {movies.map((movieReq)=>
       <MovieBox key={movieReq.id}{...movieReq}/>
       )}
+     </div>
+     </div>
+    </Router>
 
-       
-     </div>
-     </div>
-      </Router> 
-    </>
 );
-}
+      }
+      };
+      
+
 
 let mapStateToProps = state => {
   return { movies: state.movies }
