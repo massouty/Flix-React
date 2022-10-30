@@ -6,7 +6,7 @@ import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import { connect } from 'react-redux';
 import { setMovies } from '../Action/Action';
 import axios from "axios";
-import MovieBox from "../MovieBox/MovieBox";
+import MovieBox from "../MovieView/MovieView";
 import './MainView.scss';
 import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
 import Login from '../Login/Login';
