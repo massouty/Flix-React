@@ -1,0 +1,11 @@
+@import "variables";
+
+body {
+  background-color: $backgroundColor !important;
+  color: $color;
+}
+
+.card-body {
+  background-color: $backgroundColorCard;
+  color: $color;
+}
