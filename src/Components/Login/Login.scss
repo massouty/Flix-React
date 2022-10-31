@@ -1,0 +1,13 @@
+@import "../styles/variables";
+
+.login-form {
+    .registerLink {
+    color: $linkColor;
+    }
+    color: $color;
+}
+.Login {
+    &.card {
+        border-color: $borderColorCard;
+    }
+}
