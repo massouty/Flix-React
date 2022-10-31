@@ -6,13 +6,15 @@ import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import { connect } from 'react-redux';
 import { setMovies } from '../Action/Action';
 import axios from "axios";
-import MovieBox from "../MovieView/MovieView";
+import MovieView from "../MovieView/MovieView";
 import './MainView.scss';
 import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
 import Login from '../Login/Login';
 import Profile from "../Profile/Profile";
 import Register from '../Register/Register';
 import GenreView from "../GenreView/GenreView";
+import { DirectorView } from "../DirectorView/DirectorView";
+import MovieCard from "../MovieCard/MovieCard";
 
 
 class MainView extends React.Component {
@@ -103,6 +105,12 @@ return (
             <Navbar.Brand href='/Login' >Login</Navbar.Brand>
              <Navbar.Brand href='/Register'>Register</Navbar.Brand>
              <Navbar.Brand href='/GenreView'>GenreView</Navbar.Brand>
+             <Navbar.Brand href='/DirectorView'>DirectorView</Navbar.Brand>
+             <Navbar.Brand href='/MovieCard'>MovieCard</Navbar.Brand>
+             <Navbar.Brand href='/MovieView'>MovieView</Navbar.Brand>
+
+
+
              <Navbar.Toggle  aria-controls='navbarScroll' ></Navbar.Toggle>
                 <Navbar.Collapse  id="navbarScroll">
                 <Nav  className="me-auto my=2 my=lg=3" style={{maxHeight:'400px'}} navbarScroll> 
@@ -111,14 +119,7 @@ return (
     
 </Container>
     </Navbar>
-    <Form className="d-flex bg=primary" onSubmit={searchMovie}>
-                <FormControl type="search" placeholder="Movie Search"
-                className="me-2" aria-label="search"
-                name="query" value={query} onChange={changeHandler}></FormControl>
-                <Button variant="primary" type="submit">Search</Button>
 
-             </Form>
-            
             <Switch>
               <Route exact path ="/Login" component={Login}/>
               <Route exact path ="/Profile" component={()=><Profile authorized={true}/>}/>
@@ -126,15 +127,26 @@ return (
                <Switch>
               <Route exact path ="/Register" component={Register}/>
               </Switch>
-           
+
               <Switch>
               <Route exact path="/GenreView" component={GenreView} />
+              </Switch>
+           
+              <Switch>
+              <Route exact path="/DirectorView" component={DirectorView} />
             </Switch>
-  
+            <Switch>
+              <Route exact path="/MovieCard" component={MovieCard} />
+            </Switch>
+
+            <Switch>
+              <Route exact path="/MovieView" component={MovieView} />
+            </Switch>
+
      <div className="container">
      <div className="grid">
       {movies.map((movieReq)=>
-      <MovieBox key={movieReq.id}{...movieReq}/>
+      <MovieView key={movieReq.id}{...movieReq}/>
       )}
      </div>
      </div>
