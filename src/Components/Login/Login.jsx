@@ -1,91 +1,108 @@
-import React  from 'react';
-import { useHistory } from 'react-router-dom';
-//import Form from 'react-bootstrap/Form';
-//import Button from 'react-bootstrap/Button';
-//import axios from 'axios';
+import React, { useState } from "react";
+
+import {
+  Form,Button,Card,CardGroup,Container,Col,Row,} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 
-function Login(){
-    const history= useHistory();
-    return(
-        <div>
-            <input type="text" placeholder ="username"/>
-            <input type="text" placeholder ="password"/>
-            <button onClick={()=>{history.push("/Profile");}}>Login</button>
-        </div>
-    );
-}
+import "./Login.scss";
 
-export default Login;
+export default function Login(props) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [usernameErr, setUsernameErr] = useState("");
+  const [passwordErr, setPasswordErr] = useState("");
 
-
-
-
-/* function Login(props) {
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
-// Declare hook for each input
-  const [ usernameErr, setUsernameErr ] = useState('');
-  const [ passwordErr, setPasswordErr ] = useState('');
-
-// validate user inputs
-const validate = () => {
+  const validate = () => {
     let isReq = true;
-    if(!username){
-     setUsernameErr('Username Required');
-     isReq = false;
-    }else if(username.length < 2){
-     setUsernameErr('Username must be 2 characters long');
-     isReq = false;
+    if (!username) {
+      setUsernameErr("Username Required");
+      isReq = false;
+    } else if (username.length < 2) {
+      setUsernameErr("Username must have at least 2 characters");
+      isReq = false;
     }
-    if(!password){
-     setPasswordErr('Password Required');
-     isReq = false;
-    }else if(password.length < 6){
-     setPassword('Password must be 6 characters long');
-     isReq = false;
+    if (!password) {
+      setPasswordErr("Password Required");
+      isReq = false;
+    } else if (password.length < 6) {
+      setPasswordErr("Password must have at least 6 characters");
+      isReq = false;
     }
-
     return isReq;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isReq = validate();
+    if (isReq) {
+      axios
+        .post("https://myflixdbapi.herokuapp.com/login", {
+          Username: username,
+          Password: password,
+        })
+        .then((response) => {
+          const data = response.data;
+          props.onLoggedIn(data);
+        })
+        .catch((e) => {
+          console.log(e, "no such user");
+        });
+    }
+  };
+
+  return (
+    <Container style={{ width: 600 }}>
+      <Row>
+        <Col>
+          <CardGroup>
+            <Card
+              style={{ marginTop: 100, marginBottom: 50 }}
+              className="logIn"
+            >
+              <Card.Body>
+                <Card.Title style={{ textAlign: "center", fontSize: "2rem" }}>
+                  Login
+                </Card.Title>
+                <Form className="login-form">
+                  <Form.Group controlId="formUsername">
+                    <Form.Label>Username:</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                      placeholder="Enter a username"
+                    />
+                    {usernameErr && <p>{usernameErr}</p>}
+                  </Form.Group>
+
+                  <Form.Group controlId="formPassword">
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      placeholder="Enter a password"
+                    />
+                    {passwordErr && <p>{passwordErr}</p>}
+                  </Form.Group>
+                  <Form.Group className="mt-2">
+                    <Button variant="info" type="submit" onClick={handleSubmit}>
+                      Submit
+                    </Button>
+                    <Link to="/register" className="ml-2 registerLink">
+                      Register
+                    </Link>
+                  </Form.Group>
+                </Form>
+              </Card.Body>
+            </Card>
+          </CardGroup>
+        </Col>
+      </Row>
+    </Container>
+  );
 }
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const isReq = validate();
-  if(isReq) {
-    axios.post('https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=3b885affc5cf1baf5603690472bf4c6e', {
-        Username: username,
-        Password: password
-    })
-    .then(response =>{
-        const data = response.data;
-        props.onLoggedIn(data);
-    })
-    .catch(e => {
-      console.log('no such user')
-    });
-  }
-};*/
-
-  /*return (
-    <Form>
-      <Form.Group controlId="formUsername">
-        <Form.Label>Username:</Form.Label>
-        <Form.Control type="text" placeholder="Enter username" value={username} onChange={e => setUsername(e.target.value)} />
-        {code added here to display validation error }
-        {usernameErr && <p>{usernameErr}</p>}
-</Form.Group>
-
-      <Form.Group controlId="formPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
-        { code added here to display validation error }
-        {passwordErr && <p>{passwordErr}</p>}
-</Form.Group>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
-        Submit
-        </Button>
-    </Form>
-  )
-*/
-

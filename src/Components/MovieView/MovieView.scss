@@ -1,7 +1,7 @@
 @import "../styles/variables";
 
-.GenreView {
-    .backBtn {
+.MovieView {
+    .backLink, .directorLink, .genreLink {
     color: $linkColor;
     }
     color: $color;

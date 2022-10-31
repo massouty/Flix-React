@@ -1,0 +1,14 @@
+@import "../styles/variables";
+
+.Profile {
+    .userInfo {
+        border-color: $borderColorCard;
+    }    
+    .updateUser {
+        border-color: $borderColorCard;
+    }    
+    .backBtn {
+    color: $linkColor;
+    }
+    color: $color;
+}
