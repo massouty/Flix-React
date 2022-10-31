@@ -6,7 +6,7 @@ import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import { connect } from 'react-redux';
 import { setMovies } from '../Action/Action';
 import axios from "axios";
-import MovieView from "../MovieView/MovieView";
+import {MovieView} from "../MovieView/MovieView";
 import './MainView.scss';
 import {Navbar,Container,Nav,Form,FormControl,Button} from 'react-bootstrap';
 import Login from '../Login/Login';
@@ -18,6 +18,7 @@ import MovieCard from "../MovieCard/MovieCard";
 
 
 class MainView extends React.Component {
+  // eslint-disable-next-line no-useless-constructor
   constructor() {
     super();
   }

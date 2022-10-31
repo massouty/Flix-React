@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import {Row} from "react-bootstrap";
-import "./movie-view+.scss";
+import "./MovieView.scss";
 
 import { Link } from "react-router-dom";
 
