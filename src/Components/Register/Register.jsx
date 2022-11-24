@@ -17,7 +17,7 @@ import './Register.scss';
 
     return (
     
-    <form className="container">
+    <form className="container1">
       <label>
         Username:
         <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
@@ -31,7 +31,7 @@ import './Register.scss';
         <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
       </label>
       <label>
-       birthday:
+      Birthday:
         <input type="birthday" value={birthday} onChange={e => setBirthday (e.target.value)} />
       </label>
       <button type="submit" onClick={handleSubmit}>Submit</button>

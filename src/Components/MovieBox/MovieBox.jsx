@@ -4,7 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 
 const API_IMG="https://image.tmdb.org/t/p/w500";
 
-function MovieBox({title,poster_path,vote_average,release_date,overview}) {
+function MovieBox({title,poster_path,vote_average,release_date,overview,genre_ids
+}) {
  const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -23,6 +24,7 @@ return (
             <h1>{title}</h1>
             <h6>Overview:<br></br>{overview}</h6>
             <h6>Release Date :<br></br>{release_date}</h6>
+            <h6>GenreId : <br></br>{genre_ids}</h6>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Close</Button>
